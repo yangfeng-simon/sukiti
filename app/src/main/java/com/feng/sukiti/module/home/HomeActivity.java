@@ -1,6 +1,7 @@
 package com.feng.sukiti.module.home;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,10 +39,14 @@ public class HomeActivity extends Activity {
         }
     };
 
+    Context mContext;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mContext = this;
 
         mRecyclerView = (RecyclerView)findViewById(R.id.home_weibo_recyclerview);
         mLayoutManager = new LinearLayoutManager(this);
@@ -62,6 +67,7 @@ public class HomeActivity extends Activity {
                 try {
                     String json = OkHttpClientUtility.doGetRequstWithAceesToken(UrlConstants.HOME_TIMELINE, params);
                     MessageListModel messageListModel = new Gson().fromJson(json, MessageListModel.class);
+                    messageListModel.spanAll(mContext);
                     messageModelList = messageListModel.getList();
                     mHandler.sendEmptyMessage(0);
                     Log.d("yf", "count-----------"+messageListModel.getList().size());

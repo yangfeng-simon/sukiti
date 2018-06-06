@@ -2,6 +2,7 @@ package com.feng.sukiti.module.home;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.feng.sukiti.model.MessageModel;
 import com.feng.sukiti.model.UserModel;
 import com.feng.sukiti.model.VisibleModel;
 import com.feng.sukiti.utils.Utility;
+import com.feng.sukiti.widget.TextViewFixTouchConsume;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,6 +46,9 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        final MessageModel msg = weiboList.get(position);
+        holder.mContentTextView.setText(msg.span);
+        holder.mContentTextView.setMovementMethod(TextViewFixTouchConsume.LocalLinkMovementMethod.getInstance());
         holder.mNicknameTextView.setText(weiboList.get(position).user.name + "");
         SimpleDateFormat sdf1 = new SimpleDateFormat ("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
         String x = weiboList.get(position).created_at;
@@ -58,7 +63,7 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
                 .load(weiboList.get(position).user.avatar_large)
                 .circleCrop()
                 .into(holder.mAvatarImageView);
-        holder.mContentTextView.setText(weiboList.get(position).text);
+//        holder.mContentTextView.setText(weiboList.get(position).text);
     }
 
     @Override

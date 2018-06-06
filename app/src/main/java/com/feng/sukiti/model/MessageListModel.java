@@ -25,6 +25,8 @@ import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 
 
+import com.feng.sukiti.utils.SpannableStringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,18 +61,17 @@ public class MessageListModel extends BaseListModel<MessageModel, MessageListMod
 	private List<AD> ad = new ArrayList<AD>();
 	
 	public void spanAll(Context context) {
-//		for (MessageModel msg : getList()) {
-//
-//			if(msg.user==null){
-//				getList().remove(msg);
-//				break;
-//			}
-//			msg.span = SpannableStringUtils.getSpan(context, msg);
-//			if (msg.retweeted_status != null) {
-//				msg.retweeted_status.origSpan = SpannableStringUtils.getOrigSpan(context, msg.retweeted_status);
-//			}
-//		}
-		RecyclerView recyclerView;
+		for (MessageModel msg : getList()) {
+
+			if(msg.user==null){
+				getList().remove(msg);
+				break;
+			}
+			msg.span = SpannableStringUtils.getSpan(context, msg);
+			if (msg.retweeted_status != null) {
+				msg.retweeted_status.origSpan = SpannableStringUtils.getOrigSpan(context, msg.retweeted_status);
+			}
+		}
 	}
 
 	
