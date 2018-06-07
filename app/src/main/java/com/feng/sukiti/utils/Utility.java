@@ -56,4 +56,15 @@ public class Utility {
         }
         return "刚刚";
     }
+
+    /**
+     * 处理微博status的source字段
+     * @param from
+     * @return
+     */
+    public static String dealSourceString(String from) {
+        int start = from.indexOf(">") + 1;
+        int end = from.lastIndexOf("<");
+        return from.substring(start, end);
+    }
 }

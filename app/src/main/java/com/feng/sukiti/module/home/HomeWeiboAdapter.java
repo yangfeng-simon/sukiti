@@ -2,6 +2,7 @@ package com.feng.sukiti.module.home;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,8 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
         final MessageModel msg = weiboList.get(position);
         holder.mContentTextView.setText(msg.span);
         holder.mContentTextView.setMovementMethod(TextViewFixTouchConsume.LocalLinkMovementMethod.getInstance());
+        String source = TextUtils.isEmpty(msg.source) ? "" : Utility.dealSourceString(msg.source);
+        holder.mSourceTextView.setText(source);
         holder.mNicknameTextView.setText(weiboList.get(position).user.name + "");
         SimpleDateFormat sdf1 = new SimpleDateFormat ("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
         String x = weiboList.get(position).created_at;
@@ -80,6 +83,7 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
         public TextView mNicknameTextView;
         public ImageView mAvatarImageView;
         public TextView mTimeTextView;
+        public TextView mSourceTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -87,6 +91,7 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
             mContentTextView = (TextView) itemView.findViewById(R.id.home_weibo_content);
             mAvatarImageView = (ImageView) itemView.findViewById(R.id.home_weibo_avatar);
             mTimeTextView = (TextView) itemView.findViewById(R.id.home_weibo_time);
+            mSourceTextView = (TextView) itemView.findViewById(R.id.home_weibo_source);
         }
     }
 }

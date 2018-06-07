@@ -28,6 +28,9 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 
+import com.feng.sukiti.R;
+import com.feng.sukiti.SuKiTiApplication;
+
 //import com.shaweibo.biu.R;
 //import com.shaweibo.biu.dao.user.UserDao;
 //import com.shaweibo.biu.global.MyApplication;
@@ -95,12 +98,12 @@ public class WeiboSpan extends ClickableSpan {
 
 	@Override
 	public void updateDrawState(TextPaint ds) {
-//		if (isLight){
-//			ds.setColor(MyApplication.getInstance().getResources().getColor(R.color.white));
-//		}
-//		else {
-//			ds.setColor(MyApplication.getInstance().getResources().getColor(R.color.base));
-//		}
+		if (isLight){
+			ds.setColor(SuKiTiApplication.getInstance().getResources().getColor(R.color.white));
+		}
+		else {
+			ds.setColor(SuKiTiApplication.getInstance().getResources().getColor(R.color.mark));
+		}
 
 		ds.setUnderlineText(false);
 	}

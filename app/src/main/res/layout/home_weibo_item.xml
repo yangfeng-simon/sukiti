@@ -23,6 +23,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginTop="10dp"
             android:textSize="16sp"
+            android:textStyle="bold"
             android:textColor="#000000"/>
 
         <TextView
@@ -30,8 +31,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/home_weibo_avatar"
-            android:layout_marginTop="10dp"
-            android:textSize="24sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="18sp"
+            android:textColor="#000000"
             />
 
         <TextView
@@ -40,7 +45,17 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/home_weibo_avatar"
             android:layout_below="@id/home_weibo_nickname"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="11dp"
+            android:textSize="12sp"
+            android:textColor="#c0c0c0"/>
+
+        <TextView
+            android:id="@+id/home_weibo_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/home_weibo_time"
+            android:layout_below="@id/home_weibo_nickname"
+            android:layout_marginLeft="8dp"
             android:textSize="12sp"
             android:textColor="#c0c0c0"/>
     </RelativeLayout>
