@@ -60,4 +60,12 @@
             android:textColor="#c0c0c0"/>
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/home_nine_photo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
 </LinearLayout>

@@ -4,10 +4,12 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -17,6 +19,7 @@ import com.feng.sukiti.model.MessageModel;
 import com.feng.sukiti.model.UserModel;
 import com.feng.sukiti.model.VisibleModel;
 import com.feng.sukiti.utils.Utility;
+import com.feng.sukiti.widget.NinePhotoLayout;
 import com.feng.sukiti.widget.TextViewFixTouchConsume;
 
 import java.text.SimpleDateFormat;
@@ -66,6 +69,20 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
                 .load(weiboList.get(position).user.avatar_large)
                 .circleCrop()
                 .into(holder.mAvatarImageView);
+        List<MessageModel.PictureUrl> pictureUrls = weiboList.get(position).pic_urls;
+//        Log.d("yf", "pic urls---" + pictureUrls);
+        if(pictureUrls != null && !pictureUrls.isEmpty()){
+            for(MessageModel.PictureUrl pictureUrl : pictureUrls) {
+                Log.d("yf", "pic urls---" + pictureUrl.getThumbnail());
+                ImageView imageView = new ImageView(mContext);
+                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                holder.mNinePhotoLayout.addView(imageView, layoutParams);
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                GlideApp.with(mContext).load(pictureUrl.getThumbnail()).into(imageView);
+//                holder.mNinePhotoLayout.requestLayout();
+            }
+        }
+//        holder.mNinePhotoLayout.setPictureUrls(weiboList.get(position).pic_urls);
 //        holder.mContentTextView.setText(weiboList.get(position).text);
     }
 
@@ -84,6 +101,8 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
         public ImageView mAvatarImageView;
         public TextView mTimeTextView;
         public TextView mSourceTextView;
+//        public NinePhotoLayout mNinePhotoLayout;
+        public LinearLayout mNinePhotoLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -92,6 +111,7 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
             mAvatarImageView = (ImageView) itemView.findViewById(R.id.home_weibo_avatar);
             mTimeTextView = (TextView) itemView.findViewById(R.id.home_weibo_time);
             mSourceTextView = (TextView) itemView.findViewById(R.id.home_weibo_source);
+            mNinePhotoLayout = (LinearLayout) itemView.findViewById(R.id.home_nine_photo_layout);
         }
     }
 }
