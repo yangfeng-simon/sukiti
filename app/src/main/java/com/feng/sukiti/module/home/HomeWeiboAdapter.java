@@ -69,16 +69,18 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
                 .load(weiboList.get(position).user.avatar_large)
                 .circleCrop()
                 .into(holder.mAvatarImageView);
+
         List<MessageModel.PictureUrl> pictureUrls = weiboList.get(position).pic_urls;
 //        Log.d("yf", "pic urls---" + pictureUrls);
         if(pictureUrls != null && !pictureUrls.isEmpty()){
+            holder.mNinePhotoLayout.removeAllViews();
             for(MessageModel.PictureUrl pictureUrl : pictureUrls) {
                 Log.d("yf", "pic urls---" + pictureUrl.getThumbnail());
                 ImageView imageView = new ImageView(mContext);
                 ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 holder.mNinePhotoLayout.addView(imageView, layoutParams);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                GlideApp.with(mContext).load(pictureUrl.getThumbnail()).into(imageView);
+                GlideApp.with(mContext).load(pictureUrl.getLarge()).into(imageView);
 //                holder.mNinePhotoLayout.requestLayout();
             }
         }
@@ -101,8 +103,8 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
         public ImageView mAvatarImageView;
         public TextView mTimeTextView;
         public TextView mSourceTextView;
-//        public NinePhotoLayout mNinePhotoLayout;
-        public LinearLayout mNinePhotoLayout;
+        public NinePhotoLayout mNinePhotoLayout;
+        public LinearLayout mParentLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -111,7 +113,8 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
             mAvatarImageView = (ImageView) itemView.findViewById(R.id.home_weibo_avatar);
             mTimeTextView = (TextView) itemView.findViewById(R.id.home_weibo_time);
             mSourceTextView = (TextView) itemView.findViewById(R.id.home_weibo_source);
-            mNinePhotoLayout = (LinearLayout) itemView.findViewById(R.id.home_nine_photo_layout);
+            mNinePhotoLayout = (NinePhotoLayout) itemView.findViewById(R.id.home_nine_photo_layout);
+            mParentLayout = (LinearLayout)itemView.findViewById(R.id.home_weibo_item_linearlayout);
         }
     }
 }

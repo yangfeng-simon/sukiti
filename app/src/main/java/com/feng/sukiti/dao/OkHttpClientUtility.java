@@ -17,7 +17,7 @@ import static com.feng.sukiti.BuildConfig.DEBUG;
 public class OkHttpClientUtility {
     private static final String TAG = OkHttpClientUtility.class.getSimpleName();
 
-    private static String mAccessToken;
+    private static String mAccessToken = "2.00OiRNmB06XASOca65cf7ee5n9UJGE";
 
     private final static OkHttpClient client = new OkHttpClient();
 
