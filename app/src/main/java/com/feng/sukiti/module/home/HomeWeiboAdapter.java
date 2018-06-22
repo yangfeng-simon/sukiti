@@ -1,5 +1,7 @@
 package com.feng.sukiti.module.home;
 
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.feng.sukiti.GlideApp;
@@ -21,8 +24,11 @@ import com.feng.sukiti.model.VisibleModel;
 import com.feng.sukiti.utils.Utility;
 import com.feng.sukiti.widget.NinePhotoLayout;
 import com.feng.sukiti.widget.TextViewFixTouchConsume;
+import com.feng.sukiti.widget.toprightmenu.MenuItem;
+import com.feng.sukiti.widget.toprightmenu.TopRightMenu;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -49,7 +55,7 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final MessageModel msg = weiboList.get(position);
         holder.mContentTextView.setText(msg.span);
         holder.mContentTextView.setMovementMethod(TextViewFixTouchConsume.LocalLinkMovementMethod.getInstance());
@@ -81,11 +87,35 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
                 holder.mNinePhotoLayout.addView(imageView, layoutParams);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 GlideApp.with(mContext).load(pictureUrl.getLarge()).into(imageView);
-//                holder.mNinePhotoLayout.requestLayout();
             }
         }
-//        holder.mNinePhotoLayout.setPictureUrls(weiboList.get(position).pic_urls);
-//        holder.mContentTextView.setText(weiboList.get(position).text);
+        holder.mMoreImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TopRightMenu mTopRightMenu;
+                mTopRightMenu = new TopRightMenu((Activity)mContext);
+                List<MenuItem> menuItems = new ArrayList<>();
+                menuItems.add(new MenuItem(R.drawable.ic_more_save, "收藏"));
+                menuItems.add(new MenuItem(R.drawable.ic_more_unfollow, "取消关注"));
+                menuItems.add(new MenuItem(R.drawable.ic_more_report, "举报"));
+                mTopRightMenu
+                        .setHeight(380)     //默认高度480
+                        .setWidth(300)      //默认宽度wrap_content
+                        .showIcon(true)     //显示菜单图标，默认为true
+                        .dimBackground(false)           //背景变暗，默认为true
+                        .needAnimationStyle(true)   //显示动画，默认为true
+                        .setAnimationStyle(R.style.TRM_ANIM_STYLE)  //默认为R.style.TRM_ANIM_STYLE
+                        .addMenuList(menuItems)
+                        .setOnMenuItemClickListener(new TopRightMenu.OnMenuItemClickListener() {
+                            @Override
+                            public void onMenuItemClick(int position) {
+                                Toast.makeText(mContext, "点击菜单:" + position, Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .showAsDropDown(holder.mMoreImageView, -225, 0);
+            }
+        });
+
     }
 
     @Override
@@ -105,6 +135,7 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
         public TextView mSourceTextView;
         public NinePhotoLayout mNinePhotoLayout;
         public LinearLayout mParentLayout;
+        public ImageView mMoreImageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -115,6 +146,7 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
             mSourceTextView = (TextView) itemView.findViewById(R.id.home_weibo_source);
             mNinePhotoLayout = (NinePhotoLayout) itemView.findViewById(R.id.home_nine_photo_layout);
             mParentLayout = (LinearLayout)itemView.findViewById(R.id.home_weibo_item_linearlayout);
+            mMoreImageView = (ImageView)itemView.findViewById(R.id.home_weibo_more);
         }
     }
 }
