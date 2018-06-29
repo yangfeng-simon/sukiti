@@ -78,8 +78,10 @@ public class HomeWeiboAdapter extends RecyclerView.Adapter<HomeWeiboAdapter.View
 
         List<MessageModel.PictureUrl> pictureUrls = weiboList.get(position).pic_urls;
 //        Log.d("yf", "pic urls---" + pictureUrls);
+        holder.mNinePhotoLayout.removeAllViews();
+
         if(pictureUrls != null && !pictureUrls.isEmpty()){
-            holder.mNinePhotoLayout.removeAllViews();
+
             for(MessageModel.PictureUrl pictureUrl : pictureUrls) {
                 Log.d("yf", "pic urls---" + pictureUrl.getThumbnail());
                 ImageView imageView = new ImageView(mContext);

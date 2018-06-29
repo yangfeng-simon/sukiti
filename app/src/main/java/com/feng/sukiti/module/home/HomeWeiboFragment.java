@@ -44,6 +44,34 @@ public class HomeWeiboFragment extends Fragment {
         public void handleMessage(Message msg) {
             mHomeWeiboAdapter = new HomeWeiboAdapter(messageModelList);
             mRecyclerView.setAdapter(mHomeWeiboAdapter);
+            mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    //判断是当前layoutManager是否为LinearLayoutManager
+                    // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
+                    if (layoutManager instanceof LinearLayoutManager) {
+                        LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
+                        //获取最后一个可见view的位置
+                        int lastItemPosition = linearManager.findLastVisibleItemPosition();
+                        //获取第一个可见view的位置
+                        int firstItemPosition = linearManager.findFirstVisibleItemPosition();
+//                        if (foodsArrayList.get(firstItemPosition) instanceof Foods) {
+//                            int foodTypePosion = ((Foods) foodsArrayList.get(firstItemPosition)).getFood_stc_posion();
+//                            FoodsTypeListview.getChildAt(foodTypePosion).setBackgroundResource(R.drawable.choose_item_selected);
+//                        }
+                        Log.d("position","---"+lastItemPosition + "   " + firstItemPosition);
+                    }
+
+                }
+
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                }
+            });
         }
     };
 
@@ -81,7 +109,7 @@ public class HomeWeiboFragment extends Fragment {
             @Override
             public void run() {
                 WeiboParameters params = new WeiboParameters();
-                params.put("count",  20);
+                params.put("count",  100);
                 params.put("page", 1);
 
                 try {

@@ -22,10 +22,14 @@ package com.feng.sukiti.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
+import android.util.Log;
 
+import com.feng.sukiti.R;
 import com.feng.sukiti.dao.emotions.EmotionsDao;
 import com.feng.sukiti.model.MessageModel;
 //import com.shaweibo.biu.model.CommentModel;
@@ -54,7 +58,8 @@ public class SpannableStringUtils
 	}
 
 	public static SpannableString span(Context context, String text ,boolean isLight) {
-		SpannableString ss = SpannableString.valueOf(text);
+//		SpannableString ss = SpannableString.valueOf(text);
+		SpannableStringBuilder ss = SpannableStringBuilder.valueOf(text);
 		Linkify.addLinks(ss, PATTERN_WEB, HTTP_SCHEME);
 		Linkify.addLinks(ss, PATTERN_TOPIC, TOPIC_SCHEME);
 		Linkify.addLinks(ss, PATTERN_MENTION, MENTION_SCHEME);
@@ -65,8 +70,19 @@ public class SpannableStringUtils
 			WeiboSpan s = new WeiboSpan(span.getURL(),isLight);
 			int start = ss.getSpanStart(span);
 			int end = ss.getSpanEnd(span);
+			Log.d(TAG, "span url----" + span.getURL() );
 			ss.removeSpan(span);
-			ss.setSpan(s, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			String string = "picokpi";
+			String string2 = "中文的标题";
+			String string3 = string + string2;
+			if(span.getURL().startsWith(HTTP_SCHEME)){
+				ss.replace(start, end, string3);
+				ss.setSpan(s, start, start + string3.length() , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+				ImageSpan imageSpan = new ImageSpan(context, R.drawable.ic_link_link);
+				ss.setSpan(imageSpan, start, start + string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			}else {
+				ss.setSpan(s, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			}
 		}
 		
 		// Match Emoticons
@@ -84,7 +100,7 @@ public class SpannableStringUtils
 			}
 		}
 		
-		return ss;
+		return SpannableString.valueOf(ss);
 	}
 
 	public static SpannableString getSpan(Context context, MessageModel msg) {
@@ -122,6 +138,24 @@ public class SpannableStringUtils
 		return orig.origSpan;
 	}
 
+	public static int length(String value) {
+		int valueLength = 0;
+		String chinese = "[\u0391-\uFFE5]";
+       /* 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1 */
+		for (int i = 0; i < value.length(); i++) {
+           /* 获取一个字符 */
+			String temp = value.substring(i, i + 1);
+           /* 判断是否为中文字符 */
+			if (temp.matches(chinese)) {
+               /* 中文字符长度为2 */
+				valueLength += 2;
+			} else {
+               /* 其他字符长度为1 */
+				valueLength += 1;
+			}
+		}
+		return valueLength;
+	}
 //	public static SpannableString getCommentSpan(Context context, CommentModel orig) {
 //		if (orig.span == null) {
 //

@@ -30,6 +30,7 @@ import android.view.View;
 
 import com.feng.sukiti.R;
 import com.feng.sukiti.SuKiTiApplication;
+import com.feng.sukiti.module.home.WebviewActivity;
 
 //import com.shaweibo.biu.R;
 //import com.shaweibo.biu.dao.user.UserDao;
@@ -42,6 +43,7 @@ import com.feng.sukiti.SuKiTiApplication;
 
 public class WeiboSpan extends ClickableSpan {
 	private static String TAG = WeiboSpan.class.getSimpleName();
+	public static final String URL = "url";
 
 	private String mUrl;
 	private Uri mUri;
@@ -70,10 +72,12 @@ public class WeiboSpan extends ClickableSpan {
 
 		if (mUrl.startsWith(SpannableStringUtils.HTTP_SCHEME)) {
 			// TODO View some weibo pages inside app
-			Intent i = new Intent();
-			i.setAction(Intent.ACTION_VIEW);
-			i.setData(mUri);
-			context.startActivity(i);
+//			Intent i = new Intent();
+//			i.setAction(Intent.ACTION_VIEW);
+//			i.setData(mUri);
+			Intent intent = new Intent(context, WebviewActivity.class);
+			intent.putExtra(URL, mUrl);
+			context.startActivity(intent);
 		} else {
 			if (mUrl.startsWith(SpannableStringUtils.MENTION_SCHEME)) {
 				String name = mUrl.substring(mUrl.lastIndexOf("@") + 1, mUrl.length());
